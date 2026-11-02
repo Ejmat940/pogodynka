@@ -1,0 +1,40 @@
+App\Entity\Localization:
+    properties:
+        Latitude:
+            - Range:
+                min: -90
+                max: 90
+                notInRangeMessage: 'Latitude must be between {{ min }} and {{ max }}.'
+        Longitude:
+            - Range:
+                min: -90
+                max: 90
+                notInRangeMessage: 'Longitude must be between {{ min }} and {{ max }}.'
+
+# Zrobione przy pomocy Copilota
+App\Entity\Weather:
+    properties:
+        Date:
+            - NotNull:
+                groups: [new, edit]
+        Temperature:
+            - NotBlank:
+                groups: [new, edit]
+        Cloud_cover:
+            - NotBlank:
+                groups: [new, edit]
+        Humidity:
+            - NotNull:
+                groups: [new, edit]
+            - Range:
+                min: 0
+                max: 100
+                groups: [new, edit]
+        Wind_strength:
+            - NotNull:
+                groups: [new, edit]
+            - PositiveOrZero:
+                groups: [new, edit]
+        Localization:
+            - NotNull:
+                groups: [new, edit]

@@ -121,4 +121,25 @@ class Localization
 
         return $this;
     }
+
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $location = new Localization();
+        $form = $this->createForm(LocalizationType::class, $location, [
+            'validation_groups' => 'create',
+        ]);
+        $form->handleRequest($request);
+
+        if ($form-->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($location);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_localization_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('localization/new.html.twig', [
+            'location' => $location,
+            'form' => $form,
+        ]);
+    }
 }
