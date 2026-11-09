@@ -5,7 +5,11 @@
 {% block body %}
     <h1>Create new Weather</h1>
 
-    {{ include('weather/_form.html.twig') }}
+    {% if is_granted('ROLE_WEATHER_NEW') %}
+        {{ include('weather/_form.html.twig') }}
+    {% endif %}
 
-    <a href="{{ path('app_weather_index') }}">back to list</a>
+    {% if is_granted('ROLE_WEATHER_INDEX') %}
+        <a href="{{ path('app_weather_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}
