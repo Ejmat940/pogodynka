@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Weather;
+use App\Entity\Localization;
 use App\Form\WeatherType;
 use App\Repository\WeatherRepository;
+use App\Service\WeatherUtil;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +47,18 @@ final class WeatherController extends AbstractController
         return $this->render('weather/new.html.twig', [
             'weather' => $weather,
             'form' => $form,
+        ]);
+    }
+
+    // Użyto tutaj Copilota do metody
+    #[Route('/city/{id}', name: 'app_weather_city', methods: ['GET'])]
+    public function city(Localization $location, WeatherUtil $util): Response
+    {
+        $measurements = $util->getWeatherForLocation($location);
+
+        return $this->render('weather/city.html.twig', [
+            'location' => $location,
+            'forecast' => $measurements,
         ]);
     }
 
