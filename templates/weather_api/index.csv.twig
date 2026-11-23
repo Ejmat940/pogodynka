@@ -1,0 +1,8 @@
+"city","country","date","celsius","fahrenheit"
+{% for measurement in measurements -%}
+{{ ('"' ~ city|replace({'"': '""'}) ~ '","' ~
+    country|replace({'"': '""'}) ~ '","' ~
+    (measurement.date ?? '') ~ '","' ~
+    (measurement.celsius is null ? '' : measurement.celsius) ~ '","' ~
+    (measurement.fahrenheit is null ? '' : measurement.fahrenheit) ~ '"')|raw }}{% if not loop.last %}{{ "\r\n" }}{% endif %}
+{%- endfor -%}

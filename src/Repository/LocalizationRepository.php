@@ -4,9 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Localization;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Location;
 
 /**
  * @extends ServiceEntityRepository<Localization>
@@ -19,17 +17,13 @@ class LocalizationRepository extends ServiceEntityRepository
     }
 
     // Użyłem tutaj copilota
-    public function findByLocation(\App\Entity\Localization $location): array
+    public function findByLocation(Localization $location): array
     {
         return $this->getEntityManager()->createQueryBuilder()
             ->select('weather')
             ->from(\App\Entity\Weather::class, 'weather')
             ->where('weather.Localization = :location')
             ->setParameter('location', $location)
-            ->andWhere('weather.Date >= :today')
-            ->andWhere('weather.Date < :dayAfterTomorrow')
-            ->setParameter('today', new \DateTimeImmutable('today'), Types::DATE_IMMUTABLE)
-            ->setParameter('dayAfterTomorrow', new \DateTimeImmutable('today +3 days'), Types::DATE_IMMUTABLE)
             ->orderBy('weather.Date', 'ASC')
             ->getQuery()
             ->getResult();

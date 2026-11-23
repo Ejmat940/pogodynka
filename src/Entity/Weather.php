@@ -55,6 +55,18 @@ class Weather
         return $this->Temperature;
     }
 
+    public function getCelsius(): ?float
+    {
+        return $this->Temperature !== null ? (float) $this->Temperature : null;
+    }
+
+    public function getFahrenheit(): ?float
+    {
+        $celsius = $this->getCelsius();
+
+        return $celsius !== null ? ($celsius * 9 / 5) + 32 : null;
+    }
+
     public function setTemperature(string $Temperature): static
     {
         $this->Temperature = $Temperature;
